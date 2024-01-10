@@ -166,7 +166,7 @@ class Level {
   }
 
   /**
-   * laods all movable objects. Counts are adjustable here
+   * loads all movable objects. Counts are adjustable here
    */
   loadDynamicElements() {
     // Load jellyfishes, pufferfishes, and bosses

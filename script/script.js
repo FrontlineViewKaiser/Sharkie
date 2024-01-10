@@ -12,7 +12,6 @@ let underwaterMusic = document.getElementById("underwater");
 function init() {
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
-
 }
 
 /**
@@ -25,12 +24,13 @@ function beginGame() {
     overlay.style.display = "none";
     mask.style.display = "flex";
     renderMask();
-    ukuleleMusic.play()
-    underwaterMusic.play()
-    ukuleleMusic.loop = true
-    underwaterMusic.loop = true
-    ukuleleMusic.volume = 0.15
-    underwaterMusic.volume = 0.8
+    ukuleleMusic.currentTime = 0;
+    ukuleleMusic.play();
+    underwaterMusic.play();
+    ukuleleMusic.loop = true;
+    underwaterMusic.loop = true;
+    ukuleleMusic.volume = 0.15;
+    underwaterMusic.volume = 0.8;
   }
 }
 
@@ -59,13 +59,13 @@ function toggleMute() {
   if (!mute) {
     document.getElementById("audio").classList.add("greyed");
     mute = true;
-    ukuleleMusic.volume = 0.0
-    underwaterMusic.volume = 0.0
+    ukuleleMusic.volume = 0.0;
+    underwaterMusic.volume = 0.0;
   } else if (mute) {
     document.getElementById("audio").classList.remove("greyed");
     mute = false;
-    ukuleleMusic.volume = 0.15
-    underwaterMusic.volume = 0.8
+    ukuleleMusic.volume = 0.15;
+    underwaterMusic.volume = 0.8;
   }
 }
 
@@ -96,7 +96,7 @@ function fullscreen() {
 function gameOver() {
   mask.style.display = "none";
   overlay.style.display = "flex";
-  ukuleleMusic.pause()
+  ukuleleMusic.pause();
   renderGameOver();
   clearAllIntervals();
 }
@@ -107,7 +107,7 @@ function gameOver() {
 function youWin() {
   mask.style.display = "none";
   overlay.style.display = "flex";
-  ukuleleMusic.pause()
+  ukuleleMusic.pause();
   renderYouWin();
   clearAllIntervals();
 }
@@ -116,10 +116,23 @@ function youWin() {
  * hides the mask and displays the start screen on the ovwerlay
  */
 function restart() {
-  underwaterMusic.pause()
+  underwaterMusic.pause();
   mask.style.display = "none";
   overlay.style.display = "flex";
+  clearArrays();
+  world = new World(canvas, keyboard);
+  initLevel();
   renderStartScreen();
+}
+
+function clearArrays() {
+  world.level.barriers = [];
+  world.level.backgroundObjects = [];
+  world.level.coins = [];
+  world.level.poison = [];
+  world.level.jellyfishes = [];
+  world.level.pufferfishes = [];
+  world.level.boss = [];
 }
 
 /**
@@ -136,7 +149,7 @@ function isMobileDevice() {
 }
 
 /**
- * 
+ *
  * @returns true if window orientation is 90 (indicating that landcscape modus is active)
  */
 function isLandscapeOrientation() {
